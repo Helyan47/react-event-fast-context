@@ -128,3 +128,16 @@ export function getDefaultEvents(): Record<string, Array<TEvent>> {
 		],
 	};
 }
+
+export function getActualMonthDays() {
+	const date = new Date();
+	const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+	const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+	return days.map((day) => {
+		const newDate = new Date(date.getFullYear(), date.getMonth(), day);
+		return {
+			date: newDate,
+			stringDate: `${date.getFullYear()}-${date.getMonth() + 1}-${day}`,
+		};
+	});
+}

@@ -15,7 +15,7 @@ function useStoreData(initialState?: Store): {
 	get: () => Store;
 	add: (day: string) => void;
 	removeLastEvent: (day: string) => void;
-	editCurrentView: (view: string) => void;
+	editCurrentView: () => void;
 	subscribe: (callback: () => void) => () => void;
 } {
 	const store = useRef<Store>(
@@ -43,8 +43,9 @@ function useStoreData(initialState?: Store): {
 		subscribers.current.forEach((callback) => callback());
 	}, []);
 
-	const editCurrentView = useCallback((view: string) => {
-		store.current.currentView = view;
+	const editCurrentView = useCallback(() => {
+		const currentView = store.current.currentView === 'month' ? 'week' : 'month';
+		store.current.currentView = currentView;
 		subscribers.current.forEach((callback) => callback());
 	}, []);
 
@@ -78,7 +79,7 @@ export function useStore<SelectorOutput>(selector: (store: Store) => SelectorOut
 	state: SelectorOutput;
 	addEvent: (day: string) => void;
 	removeEvent: (day: string) => void;
-	editCurrentView: (view: string) => void;
+	editCurrentView: () => void;
 } {
 	const store = useContext(StoreContext);
 	if (!store) {
@@ -100,7 +101,7 @@ export function useFastContextFields<
 		state: Record<string, { get: SelectorOutput }>;
 		addEvent?: (day: string) => void;
 		removeEvent?: (day: string) => void;
-		editCurrentView?: (view: string) => void;
+		editCurrentView?: () => void;
 	},
 >(fieldNames: Array<{ key: string; selector: Array<string> }>): T {
 	const gettersAndSetters: T = { state: {} } as T;
