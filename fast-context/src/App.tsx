@@ -1,5 +1,5 @@
 import React from 'react';
-import { Provider, useStore } from './Context';
+import Provider, { useStore } from './Context';
 
 const EventActions = ({ day }: { day: { date: Date; stringDate: string } }) => {
 	const { addEvent, removeEvent, editCurrentView } = useStore((store) => undefined);

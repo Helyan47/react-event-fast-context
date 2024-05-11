@@ -122,3 +122,5 @@ export function useFastContextFields<
 
 	return gettersAndSetters;
 }
+
+export default Provider;
